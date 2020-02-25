@@ -1,0 +1,10 @@
+NAME		SCORE		MVP
+Zach		1000		false
+Joshua		1000		false
+Blake		1000		false
+Brett		1000		false
+Nate		1000		false
+Jacob		1000		false
+Chris		1000		false
+Ray		1000		false
+Will		1000		false
