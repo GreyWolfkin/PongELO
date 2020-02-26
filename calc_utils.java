@@ -63,52 +63,34 @@ public class calc_utils {
 	// Takes players, winner, and point spread
 	// as input, passes to calcPoints
 	public void recordGame(ArrayList<Player> players) {
-		System.out.println("Who was playing?");
+		System.out.println("Players:");
 		for(Player player:players) {
 			System.out.println(player.getName());
 		}
 		System.out.println();
-		String input = in.getInput(1);
-		int index = pong.getIndex(players, input);
-		Player player1;
-		Player player2;
-		if(index != -1) { // Input matches a name
-			player1 = players.get(index);
-		} else { // Input does not match name
-			System.out.println("Unrecognized Input");
-			return;
-		}
-		input = in.getInput(1);
-		if(input.equals(player1.getName())) { // Input matches first name
-			System.out.println("Unrecognized Input");
-			return;
-		}
-		index = pong.getIndex(players, input);
-		if(index != -1) { // Input matches a name
-			player2 = players.get(index);
-		} else { // Input does not match name
-			System.out.println("Unrecognized Input");
-			return;
-		}
-		System.out.println();
-		System.out.println("Who won?");
-		System.out.println(player1.getName());
-		System.out.println(player2.getName());
-		System.out.println();
-		input = in.getInput(1);
 		Player winner;
 		Player loser;
-		if(input.equals(player1.getName())) {
-			winner = player1;
-			loser = player2;
-		} else if(input.equals(player2.getName())) {
-			winner = player2;
-			loser = player1;
-		} else { // Input does not match either name
+		String winnerIn = in.getInput("Winner: ", 1);
+		int winnerIndex = pong.getIndex(players, winnerIn);
+		if(winnerIndex != -1) {
+			winner = players.get(winnerIndex);
+		} else {
 			System.out.println("Unrecognized Input");
 			return;
 		}
-		int loserScore = in.getInt("What was the loser's score?\n", 0, 10);
+		String loserIn = in.getInput("Loser: ", 1);
+		if(loserIn.equals(winner.getName())) {
+			System.out.println("Unrecognized Input");
+			return;
+		}
+		int loserIndex = pong.getIndex(players, loserIn);
+		if(loserIndex != -1) {
+			loser = players.get(loserIndex);
+		} else {
+			System.out.println("Unrecognized Input");
+			return;
+		}
+		int loserScore = in.getInt(loser.getName() + " score: ", 0, 10);
 		int pointSpread = 10 - loserScore;
 		calcPoints(winner, loser, pointSpread); // Calculates and awards points
 		System.out.println();

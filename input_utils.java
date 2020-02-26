@@ -61,9 +61,13 @@ public class input_utils {
 		String userIn = scan.nextLine();
 		switch(option) {
 			case 1:
-				String first = userIn.substring(0,1);
-				String afterFirst = userIn.substring(1);
-				userIn = first.toUpperCase() + afterFirst.toLowerCase();
+				if(userIn.length() == 1) {
+					userIn = userIn.toUpperCase();
+				} else if(userIn.length() >= 2) {
+					String first = userIn.substring(0,1);
+					String afterFirst = userIn.substring(1);
+					userIn = first.toUpperCase() + afterFirst.toLowerCase();
+				}
 				break;
 			case 2:
 				userIn = userIn.toUpperCase();
@@ -93,7 +97,7 @@ public class input_utils {
 	// Prints a header, then gets input, returns input
 	// as an integer
 	public int getInt(String header) {
-		System.out.println(header);
+		System.out.print(header);
 		while(true) { // Loops until input is a valid integer
 			String userIn = scan.nextLine();
 			try { // catch(NumberFormatException)
@@ -125,7 +129,7 @@ public class input_utils {
 	// Prints a header, then returns an integer
 	// between min and max
 	public int getInt(String header, int min, int max) {
-		System.out.println(header);
+		System.out.print(header);
 		while(true) { // Loops until input is a valid integer between min and max
 			String userIn = scan.nextLine();
 			try { // catch(NumberFormatException)
