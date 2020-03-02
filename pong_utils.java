@@ -1,12 +1,12 @@
 /*****
- * COPYRIGHT Joshua Supelana-Mix 2/25/2020
+ * COPYRIGHT Joshua Supelana-Mix 3/2/2020
  * This product is for private use only
  * This product may not be modified, redistributed, sold, or used for any commercial purpose
  * except by the copyright holder
  *****/
  
  /*****
-  * pong_utils v1.0
+  * pong_utils v1.2
   * Does most of the "heavy lifting" for
   * PongElo primary loop.
   *****/
@@ -54,7 +54,11 @@ public class pong_utils {
 	public void displayPlayers(ArrayList<Player> players) {
 		System.out.println("NAME\t\tSCORE\t\tMVP");
 		for(Player player:players) {
-			System.out.println(player.getName() + "\t\t" + player.getScore() + "\t\t" + player.getMVP());
+			System.out.print(player.getName() + "\t\t" + player.getScore() + "\t\t" + player.getMVP());
+			if(player.getArchived().equals("true")) {
+				System.out.print("\t\tARCHIVED");
+			}
+			System.out.println();
 		}
 		System.out.println();
 	}
@@ -63,13 +67,19 @@ public class pong_utils {
 	public void editPlayer(ArrayList<Player> players) {
 		System.out.println("Edit which player?");
 		for(Player player:players) {
-			System.out.println(player.getName() + "\t\t" + player.getScore());
+			if(player.getArchived().equals("false")) {
+				System.out.println(player.getName() + "\t\t" + player.getScore());
+			} // else do not print
 		}
 		String userIn = in.getInput(1);
 		int index = getIndex(players, userIn);
 		Player player;
 		if(index != -1) { // Input matches a name
 			player = players.get(index);
+			if(player.getArchived().equals("true")) {
+				System.out.println("Player is archived");
+				return;
+			}
 		} else { // Input does not match name
 			System.out.println("Unrecognized Input");
 			return;
@@ -91,6 +101,38 @@ public class pong_utils {
 		}
 	}
 	
+	// Permanently archives a player's score
+	public void archivePlayer(ArrayList<Player> players) {
+		String userIn = in.getInput("Are you sure you wish to permanently archive a player?\nThis action cannot be undone.\nYES\nNO\n", 2);
+		if(userIn.equals("YES")) {
+			System.out.println();
+			System.out.println("Archive which player?");
+			for(Player player:players) {
+				if(player.getArchived().equals("false")) {
+					System.out.println(player.getName());
+				} // else do not print
+			}
+			System.out.println();
+			userIn = in.getInput(1);
+			int index = getIndex(players, userIn);
+			Player player;
+			if(index != -1) { // Input matches a name
+				player = players.get(index);
+				if(player.getArchived().equals("true")) {
+					System.out.println("Player is already archived");
+					return;
+				}
+			} else { // Input does not match name
+				System.out.println("Unrecognized Input");
+				return;
+			}
+			userIn = in.getInput("Really archive player " + player.getName() + "?\nYES\nNO\n", 2);
+			if(userIn.equals("YES")) {
+				player.setArchived("true");
+			} // else return
+		}
+	}
+	
 	// Removes a player from list
 	public void removePlayer(ArrayList<Player> players) {
 		String userIn = in.getInput("Are you sure you wish to remove a player?\nThis will remove all record of the player, including their ELO and MVP status, from the database.\nYES\nNO\n", 2);
@@ -98,7 +140,11 @@ public class pong_utils {
 			System.out.println();
 			System.out.println("Remove which player?");
 			for(Player player:players) {
-				System.out.println(player.getName());
+				System.out.print(player.getName());
+				if(player.getArchived().equals("true")) {
+					System.out.print("\t\tARCHIVED");
+				}
+				System.out.println();
 			}
 			System.out.println();
 			userIn = in.getInput(1);

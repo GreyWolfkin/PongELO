@@ -1,12 +1,12 @@
 /*****
- * COPYRIGHT Joshua Supelana-Mix 2/25/2020
+ * COPYRIGHT Joshua Supelana-Mix 3/2/2020
  * This product is for private use only
  * This product may not be modified, redistributed, sold, or used for any commercial purpose
  * except by the copyright holder
  *****/
  
 /*****
- * Player v2.0
+ * Player v2.1
  *****/
 
 public class Player {
@@ -14,6 +14,7 @@ public class Player {
 	private String name;
 	private int score;
 	private String mvp;
+	private String archived;
 	
 	// Constructor called when adding a new player
 	// to list.
@@ -21,14 +22,16 @@ public class Player {
 		this.name = name;
 		this.score = 1000;
 		this.mvp = "false";
+		this.archived = "false";
 	}
 	
 	// Constructor called when populating list of
 	// players from encScores.txt
-	public Player(String name, int score, String mvp) {
+	public Player(String name, int score, String mvp, String archived) {
 		this.name = name;
 		this.score = score;
 		this.mvp = mvp;
+		this.archived = archived;
 	}
 	
 	public String getName() {
@@ -64,6 +67,17 @@ public class Player {
 			this.mvp = set;
 		} else {
 			System.out.println("ERROR SETTING MVP");
+		}
+	}
+	
+	public String getArchived() {
+		return this.archived;
+	}
+	public void setArchived(String set) {
+		if(set.equals("true") || set.equals("false")) {
+			this.archived = set;
+		} else {
+			System.out.println("ERROR SETTING ARCHIVED");
 		}
 	}
 }

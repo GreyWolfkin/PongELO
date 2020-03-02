@@ -1,12 +1,12 @@
 /*****
- * COPYRIGHT Joshua Supelana-Mix 2/25/2020
+ * COPYRIGHT Joshua Supelana-Mix 3/2/2020
  * This product is for private use only
  * This product may not be modified, redistributed, sold, or used for any commercial purpose
  * except by the copyright holder
  *****/
  
 /*****
- * file_utils v1.0
+ * file_utils v1.1
  * Supports "save" and "load" functionality
  * by reading and writing to a Base64
  * encrypted file "encScores.txt"
@@ -54,23 +54,29 @@ public class file_utils {
 			for(Player player:players) {
 				stringArr.add(player.getName());
 				stringArr.add(Integer.toString(player.getScore()));
-				stringArr.add(player.getMVP());
+				stringArr.add(player.getArchived());
 				decString += player.getName();
 				decString += "|"; // Used as delimiter in read()
 				decString += Integer.toString(player.getScore());
 				decString += "|"; // Used as delimiter in read()
 				decString += player.getMVP();
 				decString += "|"; // Used as delimiter in read()
+				decString += player.getArchived();
+				decString += "|"; // Used as delimiter in read()
 			}
 			String name;
 			String score;
-			String mvp;
-			fwRaw.write("NAME\t\tSCORE\t\tMVP\n");
+			String archived;
+			fwRaw.write("NAME\t\tSCORE\n");
 			for(int i = 0; i < stringArr.size(); i+=3) {
 				name = stringArr.get(i);
 				score = stringArr.get(i+1);
-				mvp = stringArr.get(i+2);
-				fwRaw.write(name + "\t\t" + score + "\t\t" + mvp + "\n");
+				archived = stringArr.get(i+2);
+				fwRaw.write(name + "\t\t" + score);
+				if(archived.equals("true")) {
+					fwRaw.write("\t\tARCHIVED");
+				}
+				fwRaw.write("\n");
 			}
 			fwRaw.close();
 			String BasicBase64format = Base64.getEncoder().encodeToString(decString.getBytes()); // Encodes decString to Base 64

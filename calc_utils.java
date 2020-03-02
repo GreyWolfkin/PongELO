@@ -1,12 +1,12 @@
 /*****
- * COPYRIGHT Joshua Supelana-Mix 2/25/2020
+ * COPYRIGHT Joshua Supelana-Mix 3/2/2020
  * This product is for private use only
  * This product may not be modified, redistributed, sold, or used for any commercial purpose
  * except by the copyright holder
  *****/
  
 /*****
- * calc_utils v1.1
+ * calc_utils v1.2
  * Performs point calculations for
  * games recorded in main loop
  *****/
@@ -65,7 +65,9 @@ public class calc_utils {
 	public void recordGame(ArrayList<Player> players) {
 		System.out.println("Players:");
 		for(Player player:players) {
-			System.out.println(player.getName());
+			if(player.getArchived().equals("false")) {
+				System.out.println(player.getName());
+			} // else do not print
 		}
 		System.out.println();
 		Player winner;
@@ -74,6 +76,10 @@ public class calc_utils {
 		int winnerIndex = pong.getIndex(players, winnerIn);
 		if(winnerIndex != -1) {
 			winner = players.get(winnerIndex);
+			if(winner.getArchived().equals("true")) {
+				System.out.println("Player is archived");
+				return;
+			}
 		} else {
 			System.out.println("Unrecognized Input");
 			return;
@@ -86,6 +92,10 @@ public class calc_utils {
 		int loserIndex = pong.getIndex(players, loserIn);
 		if(loserIndex != -1) {
 			loser = players.get(loserIndex);
+			if(loser.getArchived().equals("true")) {
+				System.out.println("Player is archived");
+				return;
+			}
 		} else {
 			System.out.println("Unrecognized Input");
 			return;
@@ -119,6 +129,13 @@ public class calc_utils {
 		loser.adjScore(-1 * realLoss); // Subtracts realLoss from loser's ELO
 		System.out.println(winner.getName() + " earns " + realGain + " points!");
 		System.out.println(loser.getName() + " loses " + realLoss + " points!");
+		if(winner.getMVP().equals("true")) {
+			winner.adjScore(25);
+			System.out.println(winner.getName() + " earns 25 bonus points for being MVP!");
+		} else if(loser.getMVP().equals("true")) {
+			loser.adjScore(25);
+			System.out.println(loser.getName() + " earns 25 bonus points for being MVP!");
+		}
 		System.out.println();
 	}
 	
